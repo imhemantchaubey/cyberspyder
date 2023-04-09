@@ -9,7 +9,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{% url 'home' %}">CyberSpyder</a>
+        <a class="navbar-brand" href="{% url 'home' %}">Navbar</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="False" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -34,40 +34,15 @@
           </ul>
         </div>
       </nav>
-    <form action="{% url 'result' %}"  method="post">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Email address</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" name="email">
-        </div> 
-        <button type="submit" class="btn btn-primary" >Submit</button>
-      </form> 
-    
-      <table class="table">
-        <thead>
-        
-        <tr>
-            <th>Searched at</th>
-                {% for r in date %}
-                <td> {{ r }}</td>
-                {% endfor %}
-        </tr>
-        <tr>
-            <th>Credential</th>
-                {% for r in type    %}
-                <td> {{ r }}</td>
-                {% endfor %}
-        </tr>
-        
-        </thead>    
-        <tbody>
-        
-        <tr>
-            
-            
-        </tr> 
-        
-        </tbody>
+    <div class="container py-5">
+        <h1>Login</h1>
+        <form method="POST">
+          {% csrf_token %}
+          {{ login_form.as_p }}
+          <button class="btn btn-primary" type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="/register">Create an account</a>.</p>
+      </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 </body>
 </html> 
