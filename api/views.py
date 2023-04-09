@@ -61,6 +61,8 @@ class RequestAPI(APIView):
             pd = Phone_accounts_details()
             pd.phone_no = mobile_no
             pd.truecaller = json.dumps(tc_response)
+            user = User.objects.get(id=request.user.id)
+            pd.user = user
             for data in json.loads(mobile_api_response['data']['account_details']):
                 flag = mobile_api_response['data']['account_details'][data]['registered']
                 cdata = mobile_api_response['data']['account_details'][data]
@@ -118,7 +120,8 @@ class RequestAPI(APIView):
             email_api_response = email_api_response.json()
             ed = Email_accounts_details()
             ed.email = email
-            
+            user = User.objects.get(id=request.user.id)
+            ed.user = user
             for data in (email_api_response['data']['account_details']):
             
                 flag = email_api_response['data']['account_details'][data]['registered']
@@ -231,3 +234,22 @@ class RequestAPI(APIView):
             ed.save()
             
         return Response({'msg':'data created', 'mobile_data':mobile_api_response, 'email_data':email_api_response, 'truecaller_data':tc_response})
+    
+class HomeAPI(APIView):
+  authentication_classes = (TokenAuthentication,)
+  permission_classes = [permissions.IsAuthenticated]
+  def get(self,request,*args,**kwargs):
+    
+    user = User.objects.get(id=request.user.id)
+    email_data = Email_accounts_details.objects.filter(user=user)
+    phone_data = Phone_accounts_details.objects.filter(user=user)
+    email = {"Date":[], "Email":[]}
+    phone = {"Date":[], "Phone":[]}
+    for i in  email_data:
+        email['Date'].append(i.created_at)
+        email['Email'].append(i.email)
+    
+    for i in phone_data:
+        phone['Date'].append(i.created_at)
+        phone['Phone'].append(i.phone_no)
+    return Response({'msg':'Data Fetched', 'email':email, 'phone':phone})
