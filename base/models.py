@@ -26,6 +26,7 @@ class Phone_accounts_details(models.Model):
     flipkart = models.BooleanField(null=True)
     bukalapak = models.BooleanField(null=True)
     jdid = models.BooleanField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
 
 class Email_accounts_details(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
@@ -80,3 +81,4 @@ class Email_accounts_details(models.Model):
     rambler = models.BooleanField(null=True)
     quora = models.BooleanField(null=True)
     atlassian = models.BooleanField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
