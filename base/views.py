@@ -8,8 +8,10 @@ from .forms import NewUserForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm 
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required(login_url='/login')
 def home(request):
     user = User.objects.get(id=request.user.id)
     email_data = Email_accounts_details.objects.filter(user=user)
@@ -174,7 +176,6 @@ def result(request):
         for data in (email_api_response['data']['account_details']):
            
             flag = email_api_response['data']['account_details'][data]['registered']
-            print(flag)
             cdata = email_api_response['data']['account_details'][data]
             # if flag == 'True':
             #     flag = True
